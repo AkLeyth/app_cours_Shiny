@@ -39,10 +39,16 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   dataInput <- reactive({
-    getSymbols(input$symb, src = "yahoo",
-               from = input$dates[1],
-               to = input$dates[2],
-               auto.assign = FALSE)
+    if (input$adjust) adjust(getSymbols(input$symb, src = "yahoo",
+                                        from = input$dates[1],
+                                        to = input$dates[2],
+                                        auto.assign = FALSE))
+    else getSymbols(input$symb, src = "yahoo",
+                    from = input$dates[1],
+                    to = input$dates[2],
+                    auto.assign = FALSE)
+    
+    
   })
 
   output$plot <- renderPlot({
